@@ -2,10 +2,10 @@ import pymongo
 from datetime import date
 
 ################
-CLIENT = pymongo.MongoClient()
-manager_db = CLIENT["AuthenticationData"]
-information = manager_db.authentication_data
-authentication_data = information['authentication_data']
+CLIENT = pymongo.MongoClient('localhost',27017)
+manager_db = CLIENT.AuthenticationData ## here we connected with the database
+information = manager_db.authentication_data ## here we connect to the collection
+#authentication_data = information['authentication_data']
 LETTERS = {0:'A',1:'B',2:'C',3:'D',4:'E',5:'F',6:'G',7:'H',
 8:'I',9:'J',10:'K',11:'L',12:'M',13:'N',14:'O',15:'P',
 16:'Q',17:'R',18:'S',19:'T',20:'U',21:'V',22:'W',23:'X',24:'Y',25:'Z',26:'@',27:'#',28:'.',29:' '}
@@ -24,12 +24,14 @@ def record_add(email,password,user_id,website):
     information.insert_one(record)
     print("New Record added")
 
-def record_fetch():
-    get_info = authentication_data.objects()
-    for info in get_info:    
-        print(info.email)
-        print(info.website)
-
+def record_fetch(website):
+     records  = information.find_one({"website":"{0}".format(website)})
+     print("The Email is:{0}".format(records['email_id']))
+     print("The Password is:{0}".format(records['password']))
+     print("The User_id is:{0}".format(records['user_id']))
+     print("The Date is:{0}".format(records['date']))
+     print("The Website is:{0}".format(records['website']))
+     #print(records)
 def encrypt_text(message_text,key):
     encrypted_text = ''
     for alphabet in message_text:
@@ -49,7 +51,7 @@ if __name__ == "__main__":
         email_id = str(input())
         print("Enter Password:")
         password = str(input())
-        #password = encrypt_text(password,7)
+        password = encrypt_text(password,7)
         print("Enter Userid")
         user_id = str(input())
         print("Enter Website Name:")
@@ -57,6 +59,8 @@ if __name__ == "__main__":
 
         record_add(email_id,password,user_id,website)
     else:
-        record_fetch()
+        print("Enter the website you want to search password for:")
+        website_name = str(input())
+        record_fetch(website_name)
     
 
