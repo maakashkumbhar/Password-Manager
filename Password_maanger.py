@@ -16,12 +16,21 @@ letters = {'A':0,'B':1,'C':2,'D':3,'E':4,'F':5,'G':6,'H':7,'I':8,'J':9,'K':10,'L
 
 ################
 def record_add():
+    email = email_entry.get()
+    password = password_entry.get()
+    user_id = user_id_entry.get()
+    website = website_entry.get()
+
+    print(email)
+    print(password)
+    print(user_id)
+    print(website)
     record = {
-            'email_id':email_input,
-            'password':password_input,
-            'user_id':user_id_input,
+            'email_id':email,
+            'password':password,
+            'user_id':user_id,
             'date':str(date.today()),
-            'website':website_input
+            'website':website
         }
     information.insert_one(record)
     print("New Record added")
@@ -58,28 +67,26 @@ if __name__ == "__main__":
     ##################################
     email_entry = tk.Entry(input_frame)
     email_entry.grid(row=0,column=1)
-    email_input = str(email_var.get())
     ##################################
     password_label = tk.Label(input_frame,text="Password")
     password_label.grid(row=0,column=2)
     ###############################@##
     password_entry = tk.Entry(input_frame)
     password_entry.grid(row=0,column=3)
-    password_input = str(password_var.get())
+    
     ##################################
     user_id_label = tk.Label(input_frame,text = "User_id")
     user_id_label.grid(row=1,column=0) 
     ##################################
     user_id_entry = tk.Entry(input_frame)
     user_id_entry.grid(row=1,column=1)
-    user_id_input = str(user_id_var.get())
     ##################################
     website_label = tk.Label(input_frame,text = "Website")
     website_label.grid(row=1,column=2)
     ##################################
     website_entry = tk.Entry(input_frame)
     website_entry.grid(row=1,column=3)
-    website_input = str(website_var.get())
+    ##################################
     ##################################
     submit_button = tk.Button(input_frame,text="Submit Data",command = record_add)
     submit_button.grid(row=3,column=2)
